@@ -1,7 +1,8 @@
 const employees = require('./employees.js')
 const express = require('express');
 const app = express();
-const port = 3000
+app.use(express.json());
+app.use(express.static('dist'));
 
 app.get('/', (req, res) => {
   res.send(`<h1>Welcome</h1>`);
@@ -31,6 +32,28 @@ app.get('/api/v1/employees/random', (req, res) => {
   res.send(randomEmployee)
 });   //keeps coming back undefined
 
-app.listen(3000, () => {
-  console.log(`listening to P3000`);
+app.post('/api/v1/employees', (req, res, next) => {
+  const { name } = req.body;
+  if(!name) {
+    const error = new Error("Name not provided");
+    next(error);
+  } else {
+    employees.push({
+      id: idNumber, 
+      name
+    });
+    idNumber++;
+    res.send(employees);
+  }
+});
+
+app.use((err, req, res, next) => {
+  console.log('ERROR MESSAGE', err.message);
+  res.status(400).send('PAGE NOT FOUND')
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`listening to ${PORT}`);
 });
