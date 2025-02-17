@@ -1,4 +1,4 @@
-const employees = require('./employees.js')
+const employees = require('../employees.js')
 const express = require('express');
 const app = express();
 app.use(express.json());
