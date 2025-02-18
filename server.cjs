@@ -49,8 +49,12 @@ app.post('/api/v1/employees', (req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.log('ERROR MESSAGE', err.message);
-  res.status(400).send('PAGE NOT FOUND')
+  res.status(400).send(err.message)
 });
+
+app.use((req, res) => {
+  res.status(404).send('Page Not Found')
+})
 
 const PORT = process.env.PORT || 3000;
 
